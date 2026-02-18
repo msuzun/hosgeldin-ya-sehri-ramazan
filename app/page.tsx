@@ -1,6 +1,6 @@
 ﻿import IllustrationHero from "@/components/IllustrationHero";
 import PrimaryButton from "@/components/PrimaryButton";
-import { copy } from "@/lib/copy";
+import { homeCopy } from "@/lib/copy";
 
 export default function HomePage() {
   return (
@@ -10,24 +10,24 @@ export default function HomePage() {
       </div>
 
       <section className="mx-auto mt-8 w-full max-w-3xl text-center sm:mt-10">
-        <h1 className="text-4xl font-extrabold leading-[1.3] text-gold-300 sm:text-5xl">{copy.home.title}</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-xl leading-[1.9] text-gold-300/90 sm:text-2xl">{copy.home.subtitleLine1}</p>
-        <p className="mx-auto mt-2 max-w-2xl text-xl leading-[1.9] text-gold-300/85 sm:text-2xl">{copy.home.subtitleLine2}</p>
+        <h1 className="text-4xl font-extrabold leading-[1.3] text-gold-300 sm:text-5xl">{homeCopy.title}</h1>
+        <p className="mx-auto mt-5 max-w-2xl text-xl leading-[1.9] text-gold-300/90 sm:text-2xl">{homeCopy.subtitleLine1}</p>
+        <p className="mx-auto mt-2 max-w-2xl text-xl leading-[1.9] text-gold-300/85 sm:text-2xl">{homeCopy.subtitleLine2}</p>
 
         <nav aria-label="Primary actions" className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2">
           <PrimaryButton href="/dua" className="w-full rounded-3xl py-4 text-xl shadow-soft hover:brightness-105 focus-visible:brightness-105">
-            {copy.home.ctaDua}
+            {homeCopy.ctaDua}
           </PrimaryButton>
           <PrimaryButton
             href="/about"
             variant="secondary"
             className="w-full rounded-3xl border-gold-500/45 bg-night-700/55 py-4 text-xl shadow-soft hover:bg-night-700/75"
           >
-            {copy.home.ctaAbout}
+            {homeCopy.ctaAbout}
           </PrimaryButton>
         </nav>
 
-        <p className="mt-8 text-base leading-[1.9] text-gold-300/70 sm:mt-10">{copy.home.footer}</p>
+        <p className="mt-8 text-base leading-[1.9] text-gold-300/70 sm:mt-10">{homeCopy.footer}</p>
       </section>
     </main>
   );
