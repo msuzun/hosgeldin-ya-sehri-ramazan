@@ -9,6 +9,7 @@ const config = {
   theme: {
     extend: {
       colors: {
+        "night-950": "#040b14",
         "night-900": "#081625",
         "night-700": "#153756",
         "gold-500": "#e5b45f",
@@ -18,6 +19,7 @@ const config = {
       },
       boxShadow: {
         soft: "0 20px 45px rgba(5, 15, 30, 0.45)",
+        gold: "0 0 0 1px rgba(255, 212, 140, 0.26), 0 0 26px rgba(255, 190, 99, 0.28)",
       },
     },
   },
