@@ -16,42 +16,60 @@ export default function Mosque({ className, style, intensity = 1 }: MosqueProps)
       preserveAspectRatio="none"
       className={className}
       style={style}
+      shapeRendering="geometricPrecision"
     >
       <defs>
-        <linearGradient id="mosqueFade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#162f49" />
-          <stop offset="100%" stopColor="#0a1728" />
+        <linearGradient id="mosque-base" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#152f49" />
+          <stop offset="100%" stopColor="#081624" />
+        </linearGradient>
+        <linearGradient id="window-gold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffde9e" />
+          <stop offset="100%" stopColor="#ffb95f" />
         </linearGradient>
       </defs>
 
       <g>
-        <rect x="0" y="520" width="1200" height="240" fill="url(#mosqueFade)" />
+        <rect x="0" y="520" width="1200" height="240" fill="url(#mosque-base)" />
 
-        <rect x="120" y="470" width="960" height="180" fill="#0c1d31" />
+        <g fill="#0d2136">
+          <rect x="210" y="446" width="780" height="132" />
+          <rect x="164" y="388" width="54" height="190" />
+          <path d="M191 342 L157 388 H225 Z" />
+          <rect x="982" y="404" width="46" height="174" />
+          <path d="M1005 358 L975 404 H1035 Z" />
+          <rect x="566" y="350" width="44" height="228" />
+          <path d="M588 304 L560 350 H616 Z" />
+        </g>
 
-        <rect x="180" y="412" width="48" height="150" fill="#0b1a2d" />
-        <path d="M204 360 L173 412 H235 Z" fill="#0b1a2d" />
+        <path d="M270 446 C270 370 350 334 430 334 C510 334 590 370 590 446 Z" fill="#0f263d" />
+        <path d="M540 446 C540 356 640 312 740 312 C840 312 940 356 940 446 Z" fill="#112b45" />
 
-        <rect x="972" y="420" width="40" height="142" fill="#0b1a2d" />
-        <path d="M992 372 L966 420 H1018 Z" fill="#0b1a2d" />
-
-        <rect x="260" y="430" width="680" height="132" fill="#10253d" />
-
-        <path d="M320 430 C320 366 390 332 460 332 C530 332 600 366 600 430 Z" fill="#0d2137" />
-        <path d="M600 430 C600 360 672 322 750 322 C828 322 900 360 900 430 Z" fill="#0d2137" />
-
-        <rect x="548" y="352" width="44" height="210" fill="#0b1a2d" />
-        <path d="M570 305 L544 352 H596 Z" fill="#0b1a2d" />
-
-        <rect x="430" y="476" width="62" height="86" rx="30" fill="#091423" />
-        <rect x="708" y="476" width="62" height="86" rx="30" fill="#091423" />
+        <rect x="438" y="488" width="70" height="90" rx="34" fill="#081322" />
+        <rect x="692" y="488" width="70" height="90" rx="34" fill="#081322" />
 
         <g opacity={windowOpacity}>
-          <rect x="300" y="486" width="16" height="26" rx="8" className="window-glow fill-lamp-amber" />
-          <rect x="346" y="486" width="16" height="26" rx="8" className="window-glow fill-lamp-amber" style={{ animationDelay: "0.8s" }} />
-          <rect x="648" y="486" width="16" height="26" rx="8" className="window-glow fill-lamp-amber" style={{ animationDelay: "1.2s" }} />
-          <rect x="694" y="486" width="16" height="26" rx="8" className="window-glow fill-lamp-amber" style={{ animationDelay: "0.4s" }} />
-          <rect x="840" y="486" width="16" height="26" rx="8" className="window-glow fill-lamp-amber" style={{ animationDelay: "1s" }} />
+          {[
+            [292, 490, "0s"],
+            [338, 490, "0.7s"],
+            [384, 490, "1.2s"],
+            [646, 490, "0.4s"],
+            [692, 490, "1.1s"],
+            [738, 490, "0.9s"],
+            [836, 490, "0.5s"],
+          ].map(([x, y, delay], idx) => (
+            <rect
+              key={idx}
+              x={Number(x)}
+              y={Number(y)}
+              width="16"
+              height="26"
+              rx="8"
+              fill="url(#window-gold)"
+              className="window-glow"
+              style={{ animationDelay: String(delay) }}
+            />
+          ))}
         </g>
       </g>
     </svg>
