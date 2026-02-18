@@ -32,7 +32,7 @@ export const duaFlowCopy = {
   },
   resultTitle: "Duan hazır.",
   resultCaption: "Allah kabul etsin.",
-  finalNote: "Bu niyet Ramazan için seçildi.\nVe evet, biri biraz uğraştı.",
+  finalNote: "Bu niyet Ramazan için seçildi.",
 };
 
 export const closingNotes = [
