@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import ChoiceCard from "@/components/ChoiceCard";
 import PrimaryButton from "@/components/PrimaryButton";
 import ProgressDots from "@/components/ProgressDots";
-import { closingNotes, duaFlowCopy, templates } from "@/lib/copy";
+import { closingNotes, duaFlowCopy } from "@/lib/copy";
+import { generateDua, normalizeIntention, normalizeTarget } from "@/lib/dua";
 
 const TOTAL_STEPS = 3;
 
@@ -16,33 +17,34 @@ export default function DuaPage() {
 
   const finalStep = stepIndex >= TOTAL_STEPS;
 
-  const generatedLine = useMemo(() => {
-    if (!forWho || !intention) return "";
+  const generatedDua = useMemo(() => {
+    if (!forWho || !intention) return null;
 
-    const whoIndex = duaFlowCopy.step1.options.indexOf(forWho);
-    const niyetIndex = duaFlowCopy.step2.options.indexOf(intention);
-    const safeWho = whoIndex < 0 ? 0 : whoIndex;
-    const safeNiyet = niyetIndex < 0 ? 0 : niyetIndex;
-
-    const templateIndex = (safeWho * 3 + safeNiyet) % templates.length;
-    return templates[templateIndex];
+    const targetKey = normalizeTarget(forWho);
+    const intentionKey = normalizeIntention(intention);
+    return generateDua(targetKey, intentionKey);
   }, [forWho, intention]);
 
+  const fullDuaText = useMemo(() => {
+    if (!generatedDua) return "";
+    return generatedDua.line2 ? `${generatedDua.line1}\n${generatedDua.line2}` : generatedDua.line1;
+  }, [generatedDua]);
+
   const closingNote = useMemo(() => {
-    if (!generatedLine) return "";
-    const index = generatedLine.length % closingNotes.length;
+    if (!fullDuaText) return "";
+    const index = fullDuaText.length % closingNotes.length;
     return closingNotes[index];
-  }, [generatedLine]);
+  }, [fullDuaText]);
 
   const canContinue =
     (stepIndex === 0 && Boolean(forWho)) ||
     (stepIndex === 1 && Boolean(intention)) ||
-    (stepIndex === 2 && Boolean(generatedLine));
+    (stepIndex === 2 && Boolean(generatedDua));
 
   const onShare = async () => {
-    if (!generatedLine) return;
+    if (!fullDuaText) return;
 
-    const message = `${generatedLine}\n\n${duaFlowCopy.finalNote}`;
+    const message = `${fullDuaText}\n\n${duaFlowCopy.finalNote}`;
 
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
@@ -109,7 +111,7 @@ export default function DuaPage() {
               <>
                 <h2 className="mt-5 text-3xl font-bold">{duaFlowCopy.step3.title}</h2>
                 <div className="mt-6 rounded-2xl border border-gold-500/30 bg-night-900/60 p-5 text-center">
-                  <p className="text-3xl font-bold leading-[1.8] text-gold-300 sm:text-4xl">{generatedLine}</p>
+                  <p className="whitespace-pre-line text-3xl font-bold leading-[1.8] text-gold-300 sm:text-4xl">{fullDuaText}</p>
                 </div>
               </>
             ) : null}
@@ -135,7 +137,7 @@ export default function DuaPage() {
           </>
         ) : (
           <div className="text-center">
-            <p className="mx-auto max-w-2xl text-3xl font-extrabold leading-[1.8] text-gold-300 sm:text-4xl">{generatedLine}</p>
+            <p className="mx-auto max-w-2xl whitespace-pre-line text-3xl font-extrabold leading-[1.8] text-gold-300 sm:text-4xl">{fullDuaText}</p>
             <p className="mx-auto mt-3 text-base leading-[1.8] text-gold-300/70">{closingNote}</p>
             <p className="mx-auto mt-6 max-w-2xl whitespace-pre-line text-2xl leading-[1.9] text-gold-300/90">{duaFlowCopy.finalNote}</p>
 
