@@ -8,29 +8,42 @@
     footer: "Bu sayfa, içi ısıtsın diye yapıldı.",
   },
   dua: {
-    kicker: "Guided flow",
-    title: "Set Your Niyet",
-    subtitle: "Pick what feels right. One step at a time.",
-    next: "Continue",
-    back: "Back",
-    restart: "Start Again",
-    home: "Go Home",
-    doneTitle: "Niyet complete",
-    doneText: "May your heart stay steady and your night stay bright.",
-    steps: [
-      {
-        prompt: "Tonight, what do you seek most?",
-        options: ["Calm", "Focus", "Gratitude", "Patience"],
-      },
-      {
-        prompt: "How do you want to begin?",
-        options: ["With dua", "With silence", "With dhikr", "With reflection"],
-      },
-      {
-        prompt: "What will you carry tomorrow?",
-        options: ["Kind words", "Small charity", "Gentle pace", "Clear intention"],
-      },
+    kicker: "Niyet akışı",
+    title: "Kısa Niyet",
+    subtitle: "Üç küçük adım.",
+    next: "Devam et",
+    back: "Geri",
+    finish: "Tamamla",
+    restart: "Bir niyet daha",
+    share: "Paylaş",
+    copied: "Kopyalandı",
+    shareError: "Paylaşım şu an açılamadı",
+    step1: {
+      prompt: "Kimin için?",
+      options: ["Ailem", "Bir dost", "Kendim", "İsmini söylemeden biri"],
+    },
+    step2: {
+      prompt: "Niyet",
+      options: ["Huzur", "Ferahlık", "Kolaylık", "Cesaret"],
+    },
+    step3: {
+      prompt: "Kısa dua / niyet cümlesi",
+    },
+    templates: [
+      "Bu gece ailene huzur dolsun.",
+      "Ailenin evi sakinlikle aydınlansın.",
+      "Bir dosta ferahlık gelsin.",
+      "Dostunun içi genişlesin, kalbi hafiflesin.",
+      "Kendine kolaylık nasip olsun.",
+      "Adımların kolaylaşsın, yükün azalsın.",
+      "İsmini bilmediğin birine cesaret doğsun.",
+      "O kalbe bugün güç ve sabır gelsin.",
+      "Bu gece kapına huzurlu bir nefes değsin.",
+      "Kalbin ferah, yolun açık olsun.",
+      "Bugün zor olan, yarın daha kolay olsun.",
+      "Karanlık azalsın, içindeki ışık çoğalsın.",
     ],
+    finalNote: "Bu niyet Ramazan için seçildi.\nVe evet, biri biraz uğraştı.",
   },
   about: {
     kicker: "Gentle note",
@@ -41,4 +54,3 @@
     backHome: "Back to Home",
   },
 };
-
