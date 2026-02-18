@@ -10,7 +10,7 @@
 export const duaFlowCopy = {
   kicker: "Ramazan gecesi",
   title: "Dua",
-  subtitle: "Üç kısa adım.",
+  subtitle: "Üç adımda ilerle.",
   next: "Devam et",
   back: "Baştan",
   finish: "Duan hazır",
@@ -37,7 +37,7 @@ export const duaFlowCopy = {
 
 export const closingNotes = [
   "Hayırlı bir Ramazan akşamı olsun.",
-  "Bu gece gönlüne sekinet insin.",
+  "Ramazan’ın bereketi üzerine olsun.",
   "Duaların kabul, kalbin huzurlu olsun.",
   "Ramazan’ın bereketi üzerine olsun.",
   "Kalbine ferahlık, evine huzur dolsun.",
@@ -109,3 +109,4 @@ export function getRandomDortluk() {
   const index = Math.floor(Math.random() * yunusRamazanPoem.length);
   return yunusRamazanPoem[index];
 }
+

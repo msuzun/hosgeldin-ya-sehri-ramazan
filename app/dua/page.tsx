@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import ChoiceCard from "@/components/ChoiceCard";
 import PrimaryButton from "@/components/PrimaryButton";
 import ProgressDots from "@/components/ProgressDots";
@@ -9,68 +9,102 @@ import { generateDua, normalizeIntention, normalizeTarget } from "@/lib/dua";
 
 const TOTAL_STEPS = 3;
 
-function inlineStyles(source: Element, target: Element) {
-  const sourceStyle = window.getComputedStyle(source);
-  const styleText = Array.from(sourceStyle).map((prop) => `${prop}:${sourceStyle.getPropertyValue(prop)};`).join("");
-  target.setAttribute("style", styleText);
+function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let current = "";
 
-  const sourceChildren = Array.from(source.children);
-  const targetChildren = Array.from(target.children);
-
-  for (let i = 0; i < sourceChildren.length; i += 1) {
-    const sourceChild = sourceChildren[i];
-    const targetChild = targetChildren[i];
-    if (sourceChild && targetChild) {
-      inlineStyles(sourceChild, targetChild);
+  for (const word of words) {
+    const trial = current ? `${current} ${word}` : word;
+    if (ctx.measureText(trial).width > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = trial;
     }
   }
+
+  if (current) lines.push(current);
+  return lines;
 }
 
-async function elementToPngBlob(element: HTMLElement): Promise<Blob> {
-  const rect = element.getBoundingClientRect();
-  const width = Math.max(1, Math.ceil(rect.width));
-  const height = Math.max(1, Math.ceil(rect.height));
-
-  const clone = element.cloneNode(true) as HTMLElement;
-  clone.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-  inlineStyles(element, clone);
-
-  const serialized = new XMLSerializer().serializeToString(clone);
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-      <foreignObject width="100%" height="100%">${serialized}</foreignObject>
-    </svg>
-  `;
-
-  const encoded = encodeURIComponent(svg);
-  const dataUrl = `data:image/svg+xml;charset=utf-8,${encoded}`;
-
-  const image = new Image();
-  image.decoding = "async";
-  image.src = dataUrl;
-  await image.decode();
-
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
+async function createSharePng(text: string, finalNote: string): Promise<Blob> {
+  const width = 1200;
+  const height = 1600;
   const canvas = document.createElement("canvas");
-  canvas.width = Math.ceil(width * dpr);
-  canvas.height = Math.ceil(height * dpr);
+  canvas.width = width;
+  canvas.height = height;
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("Canvas context is not available.");
+  if (!ctx) throw new Error("Canvas context unavailable");
+
+  const bg = ctx.createLinearGradient(0, 0, 0, height);
+  bg.addColorStop(0, "#173a5a");
+  bg.addColorStop(0.45, "#0d243a");
+  bg.addColorStop(1, "#071320");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, width, height);
+
+  const moon = ctx.createRadialGradient(860, 250, 18, 860, 250, 170);
+  moon.addColorStop(0, "rgba(255, 229, 171, 0.92)");
+  moon.addColorStop(1, "rgba(255, 229, 171, 0)");
+  ctx.fillStyle = moon;
+  ctx.beginPath();
+  ctx.arc(860, 250, 170, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#f6d58d";
+  ctx.beginPath();
+  ctx.arc(860, 250, 62, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#173a5a";
+  ctx.beginPath();
+  ctx.arc(888, 246, 58, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255,255,255,0.8)";
+  for (let i = 0; i < 34; i += 1) {
+    const x = (i * 71 + 41) % width;
+    const y = (i * 53 + 27) % 520;
+    ctx.beginPath();
+    ctx.arc(x, y, (i % 3) + 1.2, 0, Math.PI * 2);
+    ctx.fill();
   }
 
-  ctx.scale(dpr, dpr);
-  ctx.drawImage(image, 0, 0, width, height);
+  ctx.fillStyle = "#0b1f33";
+  ctx.fillRect(120, 1080, 960, 280);
+  ctx.fillRect(220, 1030, 760, 90);
+
+  ctx.fillStyle = "#f8e2b0";
+  ctx.font = "700 44px Nunito, Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Duan hazır.", width / 2, 640);
+
+  ctx.font = "700 58px Nunito, Arial, sans-serif";
+  const duaLines = text.split("\n").flatMap((line) => wrapText(ctx, line, 900));
+  let y = 760;
+  for (const line of duaLines.slice(0, 4)) {
+    ctx.fillText(line, width / 2, y);
+    y += 84;
+  }
+
+  ctx.font = "600 36px Nunito, Arial, sans-serif";
+  ctx.fillStyle = "rgba(248, 226, 176, 0.88)";
+  const noteLines = finalNote.split("\n");
+  let noteY = 1240;
+  for (const line of noteLines) {
+    ctx.fillText(line, width / 2, noteY);
+    noteY += 56;
+  }
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (!blob) {
-        reject(new Error("PNG blob üretilemedi."));
+        reject(new Error("PNG üretilemedi"));
         return;
       }
       resolve(blob);
-    }, "image/png");
+    }, "image/png", 1);
   });
 }
 
@@ -88,16 +122,12 @@ export default function DuaPage() {
   const [forWho, setForWho] = useState<string | null>(null);
   const [intention, setIntention] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const pageRef = useRef<HTMLElement | null>(null);
 
   const finalStep = stepIndex >= TOTAL_STEPS;
 
   const generatedDua = useMemo(() => {
     if (!forWho || !intention) return null;
-
-    const targetKey = normalizeTarget(forWho);
-    const intentionKey = normalizeIntention(intention);
-    return generateDua(targetKey, intentionKey);
+    return generateDua(normalizeTarget(forWho), normalizeIntention(intention));
   }, [forWho, intention]);
 
   const fullDuaText = useMemo(() => {
@@ -107,8 +137,7 @@ export default function DuaPage() {
 
   const closingNote = useMemo(() => {
     if (!fullDuaText) return "";
-    const index = fullDuaText.length % closingNotes.length;
-    return closingNotes[index];
+    return closingNotes[fullDuaText.length % closingNotes.length];
   }, [fullDuaText]);
 
   const canContinue =
@@ -117,10 +146,10 @@ export default function DuaPage() {
     (stepIndex === 2 && Boolean(generatedDua));
 
   const onShare = async () => {
-    if (!pageRef.current) return;
+    if (!fullDuaText) return;
 
     try {
-      const blob = await elementToPngBlob(pageRef.current);
+      const blob = await createSharePng(fullDuaText, duaFlowCopy.finalNote);
       const file = new File([blob], "ramazan-dua.png", { type: "image/png" });
 
       if (
@@ -150,7 +179,7 @@ export default function DuaPage() {
   };
 
   return (
-    <main ref={pageRef} className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 pb-16 pt-10 sm:px-6">
+    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 pb-16 pt-10 sm:px-6">
       <header className="text-center">
         <p className="text-base font-bold uppercase tracking-[0.14em] text-gold-300/75">{duaFlowCopy.kicker}</p>
         <h1 className="mt-3 text-4xl font-extrabold sm:text-5xl">{duaFlowCopy.title}</h1>
@@ -230,4 +259,3 @@ export default function DuaPage() {
     </main>
   );
 }
-

@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import KandilSwitch from "@/components/KandilSwitch";
 import "../styles/globals.css";
 
 const nunito = Nunito({
@@ -21,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.className} bg-night-900 text-gold-300 antialiased`}>
+        <KandilSwitch />
         {children}
       </body>
     </html>
   );
 }
-
