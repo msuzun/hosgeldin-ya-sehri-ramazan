@@ -1,0 +1,80 @@
+﻿@config "../tailwind.config.ts";
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ink: #061120;
+  --color-night: #0a2136;
+  --color-sand: #ffe7b2;
+  --color-warm: #ffb860;
+  --shadow-soft: 0 20px 45px rgba(5, 15, 30, 0.45);
+  --background-image-sky-glow: radial-gradient(circle at 50% 20%, #18395c 0%, #102842 40%, #091728 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+.lantern-sway {
+  transform-origin: top center;
+  animation: sway 4.5s ease-in-out infinite;
+}
+
+.star-twinkle {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+.moon-glow {
+  box-shadow: 0 0 28px rgba(255, 230, 170, 0.5);
+}
+
+.water-shimmer {
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-2.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translateX(-1.5%);
+  }
+}
