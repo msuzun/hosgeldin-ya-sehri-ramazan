@@ -13,6 +13,7 @@ export default function AboutPage() {
         <p className="text-xl leading-relaxed">{aboutCopy.line1}</p>
         <p className="mt-4 text-xl leading-relaxed text-gold-300/90">{aboutCopy.line2}</p>
         <p className="mt-4 text-xl leading-relaxed text-gold-300/90">{aboutCopy.line3}</p>
+        <p className="mt-4 text-xl leading-relaxed text-gold-300/85">{aboutCopy.line4}</p>
 
         <div className="mt-8">
           <PrimaryButton href="/">{aboutCopy.backHome}</PrimaryButton>

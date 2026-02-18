@@ -125,19 +125,17 @@ export default function DuaPage() {
                 {stepIndex === 2 ? duaFlowCopy.finish : duaFlowCopy.next}
               </PrimaryButton>
               {stepIndex > 0 ? (
-                <PrimaryButton
-                  variant="secondary"
-                  onClick={() => setStepIndex((value) => value - 1)}
-                  className="min-w-32 rounded-3xl px-6 py-4 text-xl"
-                >
-                  {duaFlowCopy.back}
+                <PrimaryButton variant="secondary" onClick={restart} className="min-w-32 rounded-3xl px-6 py-4 text-xl">
+                  {duaFlowCopy.reset}
                 </PrimaryButton>
               ) : null}
             </div>
           </>
         ) : (
           <div className="text-center">
-            <p className="mx-auto max-w-2xl whitespace-pre-line text-3xl font-extrabold leading-[1.8] text-gold-300 sm:text-4xl">{fullDuaText}</p>
+            <h2 className="text-3xl font-extrabold sm:text-4xl">{duaFlowCopy.resultTitle}</h2>
+            <p className="mx-auto mt-2 text-base leading-[1.8] text-gold-300/75">{duaFlowCopy.resultCaption}</p>
+            <p className="mx-auto mt-4 max-w-2xl whitespace-pre-line text-3xl font-extrabold leading-[1.8] text-gold-300 sm:text-4xl">{fullDuaText}</p>
             <p className="mx-auto mt-3 text-base leading-[1.8] text-gold-300/70">{closingNote}</p>
             <p className="mx-auto mt-6 max-w-2xl whitespace-pre-line text-2xl leading-[1.9] text-gold-300/90">{duaFlowCopy.finalNote}</p>
 
