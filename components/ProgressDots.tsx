@@ -11,7 +11,7 @@ export default function ProgressDots({ total, current }: ProgressDotsProps) {
         return (
           <span
             key={index}
-            className={`h-2.5 w-7 rounded-full ${active ? "bg-warm" : "bg-white/20"}`}
+            className={`h-2.5 w-7 rounded-full ${active ? "bg-gold-500" : "bg-white/20"}`}
             aria-hidden="true"
           />
         );
@@ -19,3 +19,4 @@ export default function ProgressDots({ total, current }: ProgressDotsProps) {
     </div>
   );
 }
+

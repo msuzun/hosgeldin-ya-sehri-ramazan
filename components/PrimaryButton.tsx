@@ -8,11 +8,11 @@ type PrimaryButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const base =
-  "inline-flex min-h-12 items-center justify-center rounded-2xl px-6 py-3 text-lg font-bold transition duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-warm/40 disabled:cursor-not-allowed disabled:opacity-45";
+  "inline-flex min-h-12 items-center justify-center rounded-2xl px-6 py-3 text-lg font-bold transition duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold-500/40 disabled:cursor-not-allowed disabled:opacity-45";
 
 const variants: Record<NonNullable<PrimaryButtonProps["variant"]>, string> = {
-  primary: "bg-warm text-[#1d2d3e] hover:bg-[#ffd39d]",
-  secondary: "border border-sand/40 bg-transparent text-sand hover:bg-white/10",
+  primary: "bg-gold-500 text-night-900 hover:bg-gold-300",
+  secondary: "border border-gold-300/40 bg-transparent text-gold-300 hover:bg-white/10",
 };
 
 export default function PrimaryButton({ children, href, variant = "primary", className = "", ...props }: PrimaryButtonProps) {
@@ -32,3 +32,4 @@ export default function PrimaryButton({ children, href, variant = "primary", cla
     </button>
   );
 }
+

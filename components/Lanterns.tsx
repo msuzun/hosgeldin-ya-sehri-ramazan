@@ -1,25 +1,45 @@
-﻿const lanterns = [
-  { left: "14%", top: "18%", delay: "0s", duration: "4.2s" },
-  { left: "78%", top: "20%", delay: "0.6s", duration: "4.8s" },
+﻿import type { CSSProperties } from "react";
+
+type LanternsProps = {
+  className?: string;
+  style?: CSSProperties;
+  intensity?: number;
+};
+
+const lanterns = [
+  { x: 205, y: 160, delay: "0s", duration: "4.8s", scale: 1 },
+  { x: 995, y: 176, delay: "0.7s", duration: "5.3s", scale: 0.94 },
+  { x: 860, y: 118, delay: "1.1s", duration: "4.5s", scale: 0.78 },
 ];
 
-export default function Lanterns() {
+export default function Lanterns({ className, style, intensity = 1 }: LanternsProps) {
+  const lampOpacity = Math.min(1, 0.5 + intensity * 0.45);
+
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 1200 760"
+      preserveAspectRatio="none"
+      className={className}
+      style={style}
+    >
       {lanterns.map((lantern, index) => (
-        <div
+        <g
           key={index}
-          className="lantern-sway absolute"
-          style={{ left: lantern.left, top: lantern.top, animationDelay: lantern.delay, animationDuration: lantern.duration }}
+          className="lantern-sway"
+          style={{
+            transformOrigin: `${lantern.x}px ${lantern.y - 66}px`,
+            animationDelay: lantern.delay,
+            animationDuration: lantern.duration,
+          }}
+          transform={`translate(${lantern.x} ${lantern.y}) scale(${lantern.scale})`}
         >
-          <svg width="64" height="96" viewBox="0 0 64 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M32 0V16" stroke="rgba(255,231,178,0.55)" strokeWidth="2" />
-            <rect x="14" y="16" width="36" height="58" rx="10" fill="rgba(10,33,54,0.7)" stroke="rgba(255,231,178,0.75)" strokeWidth="2" />
-            <rect x="22" y="27" width="20" height="36" rx="8" fill="rgba(255,184,96,0.86)" />
-            <path d="M24 74H40L36 86H28L24 74Z" fill="rgba(255,231,178,0.8)" />
-          </svg>
-        </div>
+          <path d="M0 -70 V-52" stroke="#f9e5b3" strokeOpacity="0.45" strokeWidth="2" />
+          <rect x="-22" y="-52" width="44" height="68" rx="12" fill="#0e2b46" stroke="#f9d48d" strokeOpacity="0.68" strokeWidth="2" />
+          <rect x="-12" y="-38" width="24" height="38" rx="10" className="window-glow fill-lamp-amber" style={{ opacity: lampOpacity }} />
+          <path d="M-10 16 H10 L7 28 H-7 Z" fill="#f9e5b3" fillOpacity="0.7" />
+        </g>
       ))}
-    </div>
+    </svg>
   );
 }

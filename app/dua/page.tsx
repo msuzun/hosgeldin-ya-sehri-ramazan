@@ -38,12 +38,12 @@ export default function DuaPage() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 pb-16 pt-10 sm:px-6">
       <header className="text-center">
-        <p className="text-sm font-bold uppercase tracking-[0.2em] text-sand/70">{copy.dua.kicker}</p>
+        <p className="text-sm font-bold uppercase tracking-[0.2em] text-gold-300/70">{copy.dua.kicker}</p>
         <h1 className="mt-3 text-4xl font-extrabold sm:text-5xl">{copy.dua.title}</h1>
-        <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-sand/90">{copy.dua.subtitle}</p>
+        <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gold-300/90">{copy.dua.subtitle}</p>
       </header>
 
-      <section className="mt-8 rounded-3xl border border-white/15 bg-night/60 p-6 shadow-soft sm:p-8" aria-live="polite">
+      <section className="mt-8 rounded-3xl border border-white/15 bg-night-700/60 p-6 shadow-soft sm:p-8" aria-live="polite">
         {!isDone && currentStep ? (
           <>
             <ProgressDots total={steps.length} current={stepIndex} />
@@ -72,7 +72,7 @@ export default function DuaPage() {
         ) : (
           <div className="text-center">
             <h2 className="text-3xl font-extrabold">{copy.dua.doneTitle}</h2>
-            <p className="mx-auto mt-3 max-w-xl text-lg leading-relaxed text-sand/90">{copy.dua.doneText}</p>
+            <p className="mx-auto mt-3 max-w-xl text-lg leading-relaxed text-gold-300/90">{copy.dua.doneText}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <PrimaryButton onClick={restart}>{copy.dua.restart}</PrimaryButton>
               <PrimaryButton href="/" variant="secondary">
@@ -85,3 +85,4 @@ export default function DuaPage() {
     </main>
   );
 }
+

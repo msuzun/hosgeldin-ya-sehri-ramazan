@@ -9,10 +9,10 @@ export default function ChoiceCard({ title, selected = false, onSelect }: Choice
     <button
       type="button"
       onClick={onSelect}
-      className={`rounded-2xl border px-5 py-4 text-left text-lg font-semibold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-warm/40 ${
+      className={`rounded-2xl border px-5 py-4 text-left text-lg font-semibold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold-500/40 ${
         selected
-          ? "border-warm bg-warm/15 text-sand"
-          : "border-white/20 bg-night/70 text-sand/90 hover:border-warm/70 hover:bg-night"
+          ? "border-gold-500 bg-gold-500/15 text-gold-300"
+          : "border-white/20 bg-night-700/70 text-gold-300/90 hover:border-gold-500/70 hover:bg-night-700"
       }`}
       aria-pressed={selected}
     >
@@ -20,3 +20,4 @@ export default function ChoiceCard({ title, selected = false, onSelect }: Choice
     </button>
   );
 }
+
