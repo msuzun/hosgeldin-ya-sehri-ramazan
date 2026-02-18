@@ -1,10 +1,11 @@
 ﻿export const copy = {
   home: {
-    kicker: "Ramadan nights",
-    title: "Ramadan Warmth",
-    subtitle: "A calm place to pause, breathe, and set your niyet with a soft heart.",
-    ctaDua: "Start Niyet",
-    ctaAbout: "Why This Exists",
+    title: "Ramazan'da küçük bir iyilik",
+    subtitleLine1: "Bugün bir kalp için güzel bir niyet.",
+    subtitleLine2: "Sessizce. Sakinlikle.",
+    ctaDua: "Bu Akşam Bir Dua",
+    ctaAbout: "Minik Not",
+    footer: "Bu sayfa, içi ısıtsın diye yapıldı.",
   },
   dua: {
     kicker: "Guided flow",
@@ -40,3 +41,4 @@
     backHome: "Back to Home",
   },
 };
+

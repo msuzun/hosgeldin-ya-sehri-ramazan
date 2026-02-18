@@ -1,16 +1,23 @@
-﻿import Lanterns from "@/components/Lanterns";
+﻿import type { CSSProperties } from "react";
+import Lanterns from "@/components/Lanterns";
 import Moon from "@/components/Moon";
 import Mosque from "@/components/Mosque";
 import Stars from "@/components/Stars";
 import WaterReflection from "@/components/WaterReflection";
 
-export default function IllustrationHero() {
+type IllustrationHeroProps = {
+  className?: string;
+  style?: CSSProperties;
+};
+
+export default function IllustrationHero({ className, style }: IllustrationHeroProps) {
   return (
     <section
       aria-label="Ramadan night illustration"
-      className="relative isolate mx-auto w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 bg-night-900 shadow-soft"
+      className={`relative isolate overflow-hidden rounded-[2rem] border border-white/10 bg-night-900 shadow-soft ${className ?? ""}`.trim()}
+      style={style}
     >
-      <div className="relative aspect-[16/10] min-h-[22rem] w-full sm:min-h-[28rem]">
+      <div className="relative h-full w-full">
         <svg aria-hidden="true" viewBox="0 0 1200 760" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
           <defs>
             <radialGradient id="nightSky" cx="50%" cy="22%" r="72%">
