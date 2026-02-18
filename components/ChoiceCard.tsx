@@ -12,7 +12,7 @@ type ChoiceCardProps = {
 function iconFromTitle(title: string): ChoiceIcon {
   const t = title.toLowerCase();
   if (t.includes("ailem")) return "family";
-  if (t.includes("dost")) return "friend";
+  if (t.includes("arkadaş") || t.includes("arkadas") || t.includes("dost")) return "friend";
   if (t.includes("kendim")) return "self";
   if (t.includes("ismini")) return "anon";
   if (t.includes("huzur")) return "peace";
@@ -77,3 +77,4 @@ export default function ChoiceCard({ title, selected = false, onSelect, icon }: 
     </button>
   );
 }
+

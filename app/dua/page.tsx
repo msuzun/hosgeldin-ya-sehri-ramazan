@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ChoiceCard from "@/components/ChoiceCard";
 import PrimaryButton from "@/components/PrimaryButton";
 import ProgressDots from "@/components/ProgressDots";
@@ -9,11 +9,86 @@ import { generateDua, normalizeIntention, normalizeTarget } from "@/lib/dua";
 
 const TOTAL_STEPS = 3;
 
+function inlineStyles(source: Element, target: Element) {
+  const sourceStyle = window.getComputedStyle(source);
+  const styleText = Array.from(sourceStyle).map((prop) => `${prop}:${sourceStyle.getPropertyValue(prop)};`).join("");
+  target.setAttribute("style", styleText);
+
+  const sourceChildren = Array.from(source.children);
+  const targetChildren = Array.from(target.children);
+
+  for (let i = 0; i < sourceChildren.length; i += 1) {
+    const sourceChild = sourceChildren[i];
+    const targetChild = targetChildren[i];
+    if (sourceChild && targetChild) {
+      inlineStyles(sourceChild, targetChild);
+    }
+  }
+}
+
+async function elementToPngBlob(element: HTMLElement): Promise<Blob> {
+  const rect = element.getBoundingClientRect();
+  const width = Math.max(1, Math.ceil(rect.width));
+  const height = Math.max(1, Math.ceil(rect.height));
+
+  const clone = element.cloneNode(true) as HTMLElement;
+  clone.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+  inlineStyles(element, clone);
+
+  const serialized = new XMLSerializer().serializeToString(clone);
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+      <foreignObject width="100%" height="100%">${serialized}</foreignObject>
+    </svg>
+  `;
+
+  const encoded = encodeURIComponent(svg);
+  const dataUrl = `data:image/svg+xml;charset=utf-8,${encoded}`;
+
+  const image = new Image();
+  image.decoding = "async";
+  image.src = dataUrl;
+  await image.decode();
+
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.ceil(width * dpr);
+  canvas.height = Math.ceil(height * dpr);
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("Canvas context is not available.");
+  }
+
+  ctx.scale(dpr, dpr);
+  ctx.drawImage(image, 0, 0, width, height);
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("PNG blob üretilemedi."));
+        return;
+      }
+      resolve(blob);
+    }, "image/png");
+  });
+}
+
+function downloadBlob(blob: Blob, fileName: string) {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = fileName;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function DuaPage() {
   const [stepIndex, setStepIndex] = useState(0);
   const [forWho, setForWho] = useState<string | null>(null);
   const [intention, setIntention] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const pageRef = useRef<HTMLElement | null>(null);
 
   const finalStep = stepIndex >= TOTAL_STEPS;
 
@@ -42,21 +117,23 @@ export default function DuaPage() {
     (stepIndex === 2 && Boolean(generatedDua));
 
   const onShare = async () => {
-    if (!fullDuaText) return;
-
-    const message = `${fullDuaText}\n\n${duaFlowCopy.finalNote}`;
-
-    if (typeof navigator !== "undefined" && navigator.share) {
-      try {
-        await navigator.share({ text: message });
-        return;
-      } catch {
-        // User may cancel share dialog.
-      }
-    }
+    if (!pageRef.current) return;
 
     try {
-      await navigator.clipboard.writeText(message);
+      const blob = await elementToPngBlob(pageRef.current);
+      const file = new File([blob], "ramazan-dua.png", { type: "image/png" });
+
+      if (
+        typeof navigator !== "undefined" &&
+        "share" in navigator &&
+        "canShare" in navigator &&
+        navigator.canShare({ files: [file] })
+      ) {
+        await navigator.share({ files: [file], title: "Dua" });
+      } else {
+        downloadBlob(blob, "ramazan-dua.png");
+      }
+
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -73,7 +150,7 @@ export default function DuaPage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 pb-16 pt-10 sm:px-6">
+    <main ref={pageRef} className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 pb-16 pt-10 sm:px-6">
       <header className="text-center">
         <p className="text-base font-bold uppercase tracking-[0.14em] text-gold-300/75">{duaFlowCopy.kicker}</p>
         <h1 className="mt-3 text-4xl font-extrabold sm:text-5xl">{duaFlowCopy.title}</h1>
@@ -153,3 +230,4 @@ export default function DuaPage() {
     </main>
   );
 }
+

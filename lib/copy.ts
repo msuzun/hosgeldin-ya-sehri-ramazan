@@ -17,11 +17,11 @@ export const duaFlowCopy = {
   restart: "Bir dua daha",
   reset: "Baştan",
   share: "Paylaş",
-  copied: "Kopyalandı",
-  shareError: "Paylaşım şu an açılamadı",
+  copied: "PNG hazır",
+  shareError: "PNG paylaşılamadı",
   step1: {
     title: "Kimin için?",
-    options: ["Ailem", "Bir dost", "Kendim", "İsmini söylemeden biri"],
+    options: ["Ailem", "Bir arkadaş", "Kendim", "İsmini söylemeden biri"],
   },
   step2: {
     title: "Ne diliyorsun?",
@@ -44,13 +44,68 @@ export const closingNotes = [
   "Bu mübarek vakit sana iyilik getirsin.",
 ] as const;
 
-
 export const aboutCopy = {
   kicker: "Minik not",
   title: "Minik Not",
-  line1: "Ramazan bazen en güzel hâliyle yavaşlar.",
+  line1: "Ramazan en güzel hâliyle başladı.",
   line2: "Birini anmak, güzel bir iz bırakır.",
   line3: "Buradaki her şey bunun için.",
   line4: "Hayırlı Ramazanlar.",
   backHome: "Ana sayfaya dön",
+  poemLabel: "Yunus Emre’den",
 };
+
+export const yunusRamazanPoem = [
+  `Müştak olup özlediğim,
+Şehr-i Ramazan merhaba.
+Bakıp yolun gözlediğim,
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `Ey şehr-i nüzûl-i sûre,
+Bâis oldun çok sürura.
+Gark eyledin bizi nura.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `On bir aylık yoldan gelir,
+Bir ay bize mihman olur.
+Müzniblere gufran olur.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `Müminlerin bayramısın,
+Dertlilerin dermanısın.
+Hakkın bize ihsanısın.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `Gökten bize rahmet ine,
+Kalbimize şefkat gele.
+Yarın bize şefi ola.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `Safa geldin izzet ile,
+Dahi azim nimet ile.
+Müminlere rahmet ile.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `Yunus der ki erdin yine,
+Şükür şefaat kanına.
+Dertlilerin dermanına.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+
+  `Derviş Yunus söyler özden,
+Kan yaş döker iki gözden.
+Hoşnut olsun cümlemizden.
+Şehr-i Ramazan merhaba.
+Mâh-ı mübarek merhaba.`,
+] as const;
+
+export function getRandomDortluk() {
+  const index = Math.floor(Math.random() * yunusRamazanPoem.length);
+  return yunusRamazanPoem[index];
+}

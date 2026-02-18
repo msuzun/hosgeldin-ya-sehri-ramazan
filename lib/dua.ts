@@ -1,4 +1,4 @@
-﻿export type Target = "AILEM" | "DOST" | "KENDIM" | "ANONIM";
+﻿export type Target = "AILEM" | "ARKADAS" | "KENDIM" | "ANONIM";
 export type Intention = "HUZUR" | "FERAHLIK" | "KOLAYLIK" | "CESARET";
 
 export type DuaText = {
@@ -30,7 +30,7 @@ export function normalizeTarget(value: unknown): Target {
   const key = simplify(value);
 
   if (key === "AILEM" || key === "AILEMIZ" || key === "AILE") return "AILEM";
-  if (key === "BIR_DOST" || key === "DOST" || key === "DOSTUM") return "DOST";
+  if (key === "BIR_ARKADAS" || key === "ARKADAS" || key === "ARKADASIM" || key === "BIR_DOST" || key === "DOST" || key === "DOSTUM") return "ARKADAS";
   if (key === "KENDIM" || key === "BEN" || key === "KENDI") return "KENDIM";
   if (key === "ISMINI_SOYLEMEDEN_BIRI" || key === "ANONIM" || key === "BIRI") return "ANONIM";
 
@@ -84,30 +84,30 @@ const TEMPLATES: Record<Target, Record<Intention, DuaText[]>> = {
       { line1: "Allah’ım, ailemizi koru.", line2: "Zor vakitlerde bize dayanma gücü ver." },
     ],
   },
-  DOST: {
+  ARKADAS: {
     HUZUR: [
-      { line1: "Allah’ım, dostumun kalbine huzur ve sükunet ver." },
-      { line1: "Ya Rabbi, dostumun gönlüne iyi bir dinginlik indir." },
-      { line1: "Allah’ım, dostumun içini sakinleştir.", line2: "Kalbine esenlik nasip et." },
-      { line1: "Allah’ım, dostumu gamdan uzak tut; kalbine huzur ver." },
+      { line1: "Allah’ım, arkadaşımın kalbine huzur ve sükunet ver." },
+      { line1: "Ya Rabbi, arkadaşımın gönlüne iyi bir dinginlik indir." },
+      { line1: "Allah’ım, arkadaşımın içini sakinleştir.", line2: "Kalbine esenlik nasip et." },
+      { line1: "Allah’ım, arkadaşımı gamdan uzak tut; kalbine huzur ver." },
     ],
     FERAHLIK: [
-      { line1: "Allah’ım, dostumun gönlüne ferahlık ver; sıkıntısını hafiflet." },
-      { line1: "Ya Rabbi, dostumun içini aç.", line2: "Üzerindeki yükü hafif kıl." },
-      { line1: "Allah’ım, dostuma iç genişliği nasip et; daralan halini rahatlat." },
-      { line1: "Allah’ım, dostumun kalbine ferah bir nefes ver." },
+      { line1: "Allah’ım, arkadaşımın gönlüne ferahlık ver; sıkıntısını hafiflet." },
+      { line1: "Ya Rabbi, arkadaşımın içini aç.", line2: "Üzerindeki yükü hafif kıl." },
+      { line1: "Allah’ım, arkadaşıma iç genişliği nasip et; daralan halini rahatlat." },
+      { line1: "Allah’ım, arkadaşımın kalbine ferah bir nefes ver." },
     ],
     KOLAYLIK: [
-      { line1: "Allah’ım, dostumun işlerini kolay eyle; hayırlı kapılar aç." },
-      { line1: "Ya Rabbi, dostumun yolunu kolaylaştır.", line2: "Yükünü hafiflet." },
-      { line1: "Allah’ım, dostumun önündeki hayırlı yolları belirgin kıl." },
-      { line1: "Allah’ım, dostuma kolaylık ver.", line2: "Emeklerini hayırla sonuçlandır." },
+      { line1: "Allah’ım, arkadaşımın işlerini kolay eyle; hayırlı kapılar aç." },
+      { line1: "Ya Rabbi, arkadaşımın yolunu kolaylaştır.", line2: "Yükünü hafiflet." },
+      { line1: "Allah’ım, arkadaşımın önündeki hayırlı yolları belirgin kıl." },
+      { line1: "Allah’ım, arkadaşıma kolaylık ver.", line2: "Emeklerini hayırla sonuçlandır." },
     ],
     CESARET: [
-      { line1: "Allah’ım, dostuma hayırlı cesaret ve metanet nasip et." },
-      { line1: "Ya Rabbi, dostumun kalbini kuvvetlendir.", line2: "Onu şerden muhafaza eyle." },
-      { line1: "Allah’ım, dostuma zor zamanda sebat ver; içini sağlam kıl." },
-      { line1: "Allah’ım, dostuma korku yerine güven ver.", line2: "Adımına hayırlı cesaret koy." },
+      { line1: "Allah’ım, arkadaşıma hayırlı cesaret ve metanet nasip et." },
+      { line1: "Ya Rabbi, arkadaşımın kalbini kuvvetlendir.", line2: "Onu şerden muhafaza eyle." },
+      { line1: "Allah’ım, arkadaşıma zor zamanda sebat ver; içini sağlam kıl." },
+      { line1: "Allah’ım, arkadaşıma korku yerine güven ver.", line2: "Adımına hayırlı cesaret koy." },
     ],
   },
   KENDIM: {
@@ -178,7 +178,7 @@ export function devDuaSelfTest(): { ok: boolean; errors: string[] } {
   }
 
   const errors: string[] = [];
-  const targets: Target[] = ["AILEM", "DOST", "KENDIM", "ANONIM"];
+  const targets: Target[] = ["AILEM", "ARKADAS", "KENDIM", "ANONIM"];
   const intentions: Intention[] = ["HUZUR", "FERAHLIK", "KOLAYLIK", "CESARET"];
 
   for (const target of targets) {
@@ -198,3 +198,5 @@ export function devDuaSelfTest(): { ok: boolean; errors: string[] } {
 
   return { ok: errors.length === 0, errors };
 }
+
+
