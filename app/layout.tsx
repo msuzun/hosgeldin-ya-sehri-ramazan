@@ -10,8 +10,8 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Ramadan Warmth",
-  description: "A calm Ramadan night scene with a gentle guided niyet flow.",
+  title: "Hayırlı Ramazanlar",
+  description: "Sakin bir Ramazan gecesi sahnesi ve nazikçe yönlendirilmiş dua akışı.",
 };
 
 export default function RootLayout({
